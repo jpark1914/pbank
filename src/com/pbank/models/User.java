@@ -10,6 +10,12 @@ public class User {
 		this.name = name;
 		this.account_type = 0;
 	}
+	
+	public User() {
+		this.id = 0;
+		this.name = null; 
+		this.account_type = 1;
+	}
 
 	public int getId() {
 		return id;
