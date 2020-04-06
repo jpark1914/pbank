@@ -15,6 +15,69 @@ public class UserDAOImpl implements UserDAO {
 	
 		Connection connection = null; // To set up the connection.
 		PreparedStatement stmt = null; // Will be used for sql stmts.
+		
+		
+	/*------------------------------------------------------------------------------------------------*/
+		@Override
+		public List<User> getUserByName(String name) {
+			List<User> users = new ArrayList<>();
+			try {
+				connection = DAOUtilities.getConnection();
+				String sql = "SELECT * FROM 'Users' WHERE name=?";
+				stmt = connection.prepareStatement(sql);
+				
+				stmt.setString(1, "%" + name + "%");
+				
+				ResultSet rs = stmt.executeQuery();
+				
+				while(rs.next()) {
+					User user = new User();
+					user.setId(rs.getInt("id"));
+					user.setName(rs.getString("name"));;
+					user.setAccount_type(rs.getInt("account_type"));
+					
+					users.add(user);
+				}
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				closeResources();
+			}
+			return users;
+		}
+	/*------------------------------------------------------------------------------------------------*/
+		
+		public List<User> getAllUsers(){
+			List<User> users = new ArrayList<>();
+		try {
+			
+			connection = DAOUtilities.getConnection();
+			String sql = "SELECT * FROM \"Users\"";
+			stmt = connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.setAccount_type(rs.getInt("account_type"));
+				
+				users.add(user);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeResources();
+		}
+		return users;
+			
+		}
+		
+	/*------------------------------------------------------------------------------------------------*/
+		
 	
 	public boolean addUser(User user) {
 		
@@ -111,4 +174,6 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 		}
 	}
+
+
 }

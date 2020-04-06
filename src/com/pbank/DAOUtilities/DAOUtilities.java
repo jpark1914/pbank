@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.pbank.dao.UserDAO;
+import com.pbank.dao.UserDAOImpl;
 
 /**
  * Class used to retrieve DAO Implementations. Serves as a factory. Also manages a single instance of the database connection.
@@ -32,6 +34,10 @@ public class DAOUtilities {
 			connection = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
 		}
 		return connection;
+	}
+	
+	public static UserDAO getUserDAO() {
+		return new UserDAOImpl();
 	}
 	
 
