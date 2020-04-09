@@ -83,7 +83,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		try {
 			connection = DAOUtilities.getConnection();
-			String sql = "INSERT INTO 'Users' VALUES(?,?) ";
+			String sql = "INSERT INTO \"Users\" (name, account_type) VALUES(?,?) ";
 			stmt = connection.prepareStatement(sql);
 			
 			stmt.setString(1, user.getName());

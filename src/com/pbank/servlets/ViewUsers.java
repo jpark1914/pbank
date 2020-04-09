@@ -25,7 +25,7 @@ public class ViewUsers extends HttpServlet {
 		
 		// Populate the list into a variable that will be stored in the session
 		request.getSession().setAttribute("users", userList);
-		request.getRequestDispatcher("userList.jsp").forward(request, response);
+		request.getRequestDispatcher("userList.jsp").forward(request, response); 
 	}
 
 

@@ -5,12 +5,16 @@ public class User {
 	private String name;
 	private int account_type;
 	
-	public User(int id, String name) {
+	public User(int id, String name, int account_type) {
 		this.id = id;
 		this.name = name;
 		this.account_type = 0;
 	}
 	
+	public User(String name, int account_type) {
+		this.name = name;
+		this.account_type = 0;
+	}
 	public User() {
 		this.id = 0;
 		this.name = null; 
