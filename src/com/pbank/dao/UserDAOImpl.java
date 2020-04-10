@@ -18,12 +18,40 @@ public class UserDAOImpl implements UserDAO {
 		
 		
 	/*------------------------------------------------------------------------------------------------*/
+		public User getByUserName(String user_name) {
+			User user = null;
+			try {
+			connection = DAOUtilities.getConnection();
+			String sql = "SELECT * FROM \"Users\" WHERE user_name = ?";
+			stmt = connection.prepareStatement(sql);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				user.setId(rs.getInt("id"));
+				user.setFirst_name(rs.getString("first_name"));
+				user.setLast_name(rs.getString("last_name"));
+				user.setUser_name(rs.getString("user_name"));
+				user.setAccount_type(rs.getInt("account_type"));
+			}
+			
+			
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				closeResources();
+			}
+			return user;
+		}
+		
+		
+	/*------------------------------------------------------------------------------------------------*/
 		@Override
-		public List<User> getUserByName(String name) {
+		public List<User> getUsersByName(String name) {
 			List<User> users = new ArrayList<>();
 			try {
 				connection = DAOUtilities.getConnection();
-				String sql = "SELECT * FROM 'Users' WHERE name=?";
+				String sql = "SELECT * FROM \"Users\" WHERE user_name = ?";
 				stmt = connection.prepareStatement(sql);
 				
 				stmt.setString(1, "%" + name + "%");
@@ -33,7 +61,9 @@ public class UserDAOImpl implements UserDAO {
 				while(rs.next()) {
 					User user = new User();
 					user.setId(rs.getInt("id"));
-					user.setName(rs.getString("name"));;
+					user.setFirst_name(rs.getString("first_name"));
+					user.setLast_name(rs.getString("last_name"));
+					user.setUser_name(rs.getString("user_name"));;
 					user.setAccount_type(rs.getInt("account_type"));
 					
 					users.add(user);
@@ -60,7 +90,9 @@ public class UserDAOImpl implements UserDAO {
 			while(rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setName(rs.getString("name"));
+				user.setFirst_name(rs.getString("first_name"));
+				user.setLast_name(rs.getString("last_name"));
+				user.setUser_name(rs.getString("user_name"));;
 				user.setAccount_type(rs.getInt("account_type"));
 				
 				users.add(user);
@@ -83,11 +115,13 @@ public class UserDAOImpl implements UserDAO {
 		
 		try {
 			connection = DAOUtilities.getConnection();
-			String sql = "INSERT INTO \"Users\" (name, account_type) VALUES(?,?) ";
+			String sql = "INSERT INTO \"Users\" (first_name, last_name, user_name, account_type) VALUES(?,?,?,?) ";
 			stmt = connection.prepareStatement(sql);
 			
-			stmt.setString(1, user.getName());
-			stmt.setInt(2, user.getAccount_type());
+			stmt.setString(1, user.getFirst_name());
+			stmt.setString(2, user.getLast_name());
+			stmt.setString(3, user.getUser_name());
+			stmt.setInt(4, user.getAccount_type());
 
 			System.out.println(stmt);
 			
@@ -132,12 +166,14 @@ public class UserDAOImpl implements UserDAO {
 		
 		try {
 			connection = DAOUtilities.getConnection();
-			String sql = "UPDATE 'Users' SET name=?, account_type=? WHERE id=?";
+			String sql = "UPDATE \"Users\" SET first_name=?,last_name =?, user_name=? account_type=? WHERE id=?";
 			stmt = connection.prepareStatement(sql);
 			
-			stmt.setString(1, user.getName());
-			stmt.setInt(2, user.getAccount_type());
-			stmt.setInt(3, user.getId());
+			stmt.setString(1, user.getFirst_name());
+			stmt.setString(2,  user.getLast_name());
+			stmt.setString(3, user.getUser_name());
+			stmt.setInt(4, user.getAccount_type());
+			stmt.setInt(5, user.getId());
 			
 			if(stmt.executeUpdate() != 0) {
 				return true;

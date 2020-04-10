@@ -13,7 +13,8 @@
 <body>
 
 	<c:forEach var="user" items="${users}">
-		<p>My name is : <c:out value="${user.name}"></c:out></p>
+		<p>My user name is: <c:out value="${user.user_name}"></c:out>
+		<p>My name is : <c:out value="${user.first_name} ${user.last_name}"></c:out></p>
 		<p>The id is: <c:out value="${user.id }"></c:out></p>
 		<p>I'm using the account: <c:out value="${user.account_type}"></c:out></p>
 		<hr/>
